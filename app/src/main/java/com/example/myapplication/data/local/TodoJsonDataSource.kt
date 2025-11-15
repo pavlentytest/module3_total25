@@ -5,10 +5,12 @@ import com.example.myapplication.data.model.TodoItemDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class TodoJsonDataSource(private val context: Context) {
+open class TodoJsonDataSource(private val context: Context?) {
     private val gson = Gson()
 
-    fun getTodos(): List<TodoItemDto> {
+    open fun getTodos(): List<TodoItemDto> {
+        if (context == null) return emptyList()
+
         val json = context.assets.open("todos.json").bufferedReader().use { it.readText() }
         val type = object : TypeToken<List<TodoItemDto>>() {}.type
         return gson.fromJson(json, type)
