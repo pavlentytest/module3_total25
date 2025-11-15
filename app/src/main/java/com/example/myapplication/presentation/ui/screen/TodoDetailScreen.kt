@@ -14,13 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.domain.model.TodoItem
 
 @Composable
 fun TodoDetailScreen(todo: TodoItem, onBack: () -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
-        IconButton(onClick = onBack) {
+        IconButton(onClick = onBack, modifier = Modifier.testTag("back_button")) {
             Icon(Icons.Default.ArrowBack, contentDescription = "Назад")
         }
         Spacer(modifier = Modifier.height(16.dp))

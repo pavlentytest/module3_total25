@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.local.TodoJsonDataSource
 import com.example.myapplication.data.repository.TodoRepositoryImpl
@@ -24,6 +25,7 @@ import com.example.myapplication.presentation.theme.MyApplicationTheme
 import com.example.myapplication.presentation.viewmodel.TodoViewModel
 
 class MainActivity : ComponentActivity() {
+    lateinit var navController: NavHostController //for test
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,6 +37,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            this@MainActivity.navController = navController //for test
             MyApplicationTheme() {
                 Scaffold { paddingValues ->
                     Box(
