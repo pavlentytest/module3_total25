@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -66,6 +67,11 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-   // androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.4")
-   // debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.4")
+    // Room
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    implementation("androidx.compose.material3:material3:1.3.0")  // или новее
 }

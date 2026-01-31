@@ -27,7 +27,7 @@ fun TodoDetailScreen(todo: TodoItem, onBack: () -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = todo.title, style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = todo.description)
+        Text(text = todo.description ?: "")
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = if (todo.isCompleted) "Выполнено ✓" else "Не выполнено", color = if (todo.isCompleted) Color.Green else Color.Red)
     }

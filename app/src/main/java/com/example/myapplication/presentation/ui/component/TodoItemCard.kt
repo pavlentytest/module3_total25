@@ -58,12 +58,14 @@ fun TodoItemCard(
                     text = todo.title,
                     style = MaterialTheme.typography.titleMedium
                 )
-                if (todo.description.isNotBlank()) {
-                    Text(
-                        text = todo.description,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                todo.description?.let {
+                    if (it.isNotBlank()) {
+                        Text(
+                            text = todo.description ?: "",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
