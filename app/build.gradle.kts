@@ -74,4 +74,5 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     implementation("androidx.compose.material3:material3:1.3.0")  // или новее
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }

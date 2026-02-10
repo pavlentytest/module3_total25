@@ -20,7 +20,8 @@ fun AppNavGraph(navController: NavHostController, viewModel: TodoViewModel) {
                 todos = viewModel.todos.collectAsState().value,
                 onTodoClick = { id -> navController.navigate("detail/$id") },
                 onToggle = viewModel::toggleTodo,
-                onDelete = { item -> viewModel.deleteTodo(item.id) }
+                onDelete = { item -> viewModel.deleteTodo(item.id) },
+                useCompletedColor = viewModel.useCompletedColor.collectAsState().value
             )
         }
 

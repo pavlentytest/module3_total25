@@ -22,6 +22,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Alignment
 import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.ui.graphics.Color
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +31,8 @@ fun TodoListScreen(
     todos: List<TodoItem>,
     onTodoClick: (Int) -> Unit,
     onToggle: (Int) -> Unit,
-    onDelete: (TodoItem) -> Unit
+    onDelete: (TodoItem) -> Unit,
+    useCompletedColor: Boolean
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -43,7 +45,7 @@ fun TodoListScreen(
         ) { todo ->
             val dismissState = rememberSwipeToDismissBoxState(
                 confirmValueChange = { dismissValue ->
-                    if (dismissValue == SwipeToDismissBoxValue.StartToEnd) {
+                    if (dismissValue == SwipeToDismissBoxValue.StartToEnd || dismissValue == SwipeToDismissBoxValue.EndToStart) {
                         onDelete(todo)
                         true
                     } else false
@@ -56,14 +58,12 @@ fun TodoListScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.errorContainer)
                             .padding(horizontal = 20.dp),
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         Icon(
                             Icons.Default.Delete,
-                            contentDescription = "Удалить",
-                            tint = MaterialTheme.colorScheme.onErrorContainer
+                            contentDescription = "Удалить"
                         )
                     }
                 }
@@ -71,7 +71,12 @@ fun TodoListScreen(
                 TodoItemCard(
                     todo = todo,
                     onClick = { onTodoClick(todo.id) },
-                    onCheckedChange = { onToggle(todo.id) }
+                    onCheckedChange = { onToggle(todo.id) },
+                    backgroundColor = if (todo.isCompleted && useCompletedColor) {
+                        Color.Green
+                    } else {
+                        Color.LightGray
+                    }
                 )
             }
         }
