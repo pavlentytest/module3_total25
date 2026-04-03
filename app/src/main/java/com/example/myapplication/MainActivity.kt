@@ -48,9 +48,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-
-
         val database = TodoDatabase.getDatabase(this)
         val todoDao = database.todoDao()
 
@@ -82,13 +79,15 @@ class MainActivity : ComponentActivity() {
                         TopAppBar(
                             title = { Text("Todo List") },
                             actions = {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
+                               /* Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text("Цвет завершённых", modifier = Modifier.padding(end = 8.dp))
                                     Switch(
                                         checked = useCompletedColor,
                                         onCheckedChange = { viewModel.toggleCompletedColor() }
                                     )
                                 }
+
+                                */
                             },
                             colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,

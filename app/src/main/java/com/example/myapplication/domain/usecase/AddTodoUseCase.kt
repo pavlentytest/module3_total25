@@ -2,7 +2,11 @@ package com.example.myapplication.domain.usecase
 
 import com.example.myapplication.domain.model.TodoItem
 import com.example.myapplication.domain.repository.TodoRepository
+import kotlinx.coroutines.flow.Flow
 
 class AddTodoUseCase(private val repository: TodoRepository) {
-    suspend operator fun invoke(task: TodoItem) = repository.addTask(task)
+
+    operator fun invoke(task: TodoItem): Flow<Unit> {
+        return repository.addTask(task)
+    }
 }

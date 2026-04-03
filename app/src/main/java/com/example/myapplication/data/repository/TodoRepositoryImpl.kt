@@ -7,8 +7,12 @@ import com.example.myapplication.data.local.entity.TodoEntity
 import com.example.myapplication.data.model.TodoItemDto
 import com.example.myapplication.domain.model.TodoItem
 import com.example.myapplication.domain.repository.TodoRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
@@ -37,19 +41,26 @@ class TodoRepositoryImpl(
             }
         }
 
-    override suspend fun toggleTodo(id: Int) {
-        val entity = todoDao.getTodoById(id) ?: return
-        todoDao.update(entity.copy(isCompleted = !entity.isCompleted))
-    }
-
-    override suspend fun addTask(task: TodoItem) {
-        val entity = task.toEntity().copy(id = 0) // id генерируется Room
+    override fun addTask(task: TodoItem): Flow<Unit> = flow {
+        val entity = task.toEntity().copy(id = 0)
         todoDao.insert(entity)
-    }
+        emit(Unit)
+    }.flowOn(Dispatchers.IO)
+        .catch { e ->
+            throw e
+        }
 
-    override suspend fun deleteTodo(id: Int) {
+    override fun toggleTodo(id: Int): Flow<Unit> = flow {
+        val entity = todoDao.getTodoById(id)
+        todoDao.update(entity.copy(isCompleted = !entity.isCompleted))
+        emit(Unit)
+    }.flowOn(Dispatchers.IO)
+
+    override fun deleteTodo(id: Int): Flow<Unit> = flow {
         todoDao.deleteById(id)
-    }
+        emit(Unit)
+    }.flowOn(Dispatchers.IO)
+
 }
 
 // Маппер из DTO (JSON) в Domain

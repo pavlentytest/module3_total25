@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.stateIn
 import java.util.prefs.Preferences
 
@@ -56,30 +58,25 @@ class TodoViewModel(
             dataStore.edit { preferences ->
                 preferences[PreferencesKeys.TASK_COMPLETED_COLOR] = !(_useCompletedColor.value)
             }
+            //Log.d("RRR","_useCompletedColor = ${_useCompletedColor}")
         }
     }
 
     fun toggleTodo(id: Int) {
-        viewModelScope.launch {
-            toggleTodoUseCase(id)
-        }
+        toggleTodoUseCase(id).launchIn(viewModelScope)
     }
 
     fun addTask(title: String, description: String?) {
-        viewModelScope.launch {
-            val newTask = TodoItem(
-                id = 0,  // id сгенерируется в Room
-                title = title,
-                description = description,
-                isCompleted = false
-            )
-            addTodoUseCase(newTask)
-        }
+        val newTask = TodoItem(
+            id = 0,
+            title = title,
+            description = description,
+            isCompleted = false
+        )
+        addTodoUseCase(newTask).launchIn(viewModelScope)
     }
 
     fun deleteTodo(id: Int) {
-        viewModelScope.launch {
-            deleteTodoUseCase(id)
-        }
+        deleteTodoUseCase(id).launchIn(viewModelScope)
     }
 }
